@@ -25,7 +25,4 @@ public class RegisterRequest {
 
     @NotBlank(message = "Role is required")
     private String role; // "STUDENT", "FACULTY", or "ADMIN"
-
-    // Optional field, only required if role == "ADMIN"
-    private String adminSecretKey;
 }

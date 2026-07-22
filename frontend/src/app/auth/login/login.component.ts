@@ -20,8 +20,7 @@ export class LoginComponent {
 
   roles = [
     { id: 'STUDENT', label: 'Student' },
-    { id: 'FACULTY', label: 'Faculty' },
-    { id: 'ADMIN', label: 'Admin' }
+    { id: 'FACULTY', label: 'Faculty' }
   ];
 
   constructor(
@@ -32,8 +31,7 @@ export class LoginComponent {
     this.authForm = this.fb.group({
       fullName: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      adminSecretKey: ['']
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -68,7 +66,11 @@ export class LoginComponent {
         },
         error: (err) => {
           this.isLoading = false;
-          this.errorMessage = err.error?.message || 'Registration failed. Please check your details.';
+          if (err.status === 0 || err.status >= 500) {
+            this.errorMessage = 'Cannot connect to server. Please try again in a moment.';
+          } else {
+            this.errorMessage = err.error?.message || 'Registration failed. Please check your details.';
+          }
         }
       });
     } else {
@@ -79,7 +81,11 @@ export class LoginComponent {
         },
         error: (err) => {
           this.isLoading = false;
-          this.errorMessage = 'Invalid credentials. Please verify your email and password.';
+          if (err.status === 0 || err.status >= 500) {
+            this.errorMessage = 'Cannot connect to server. Please try again in a moment.';
+          } else {
+            this.errorMessage = err.error?.message || 'Invalid credentials. Please verify your email and password.';
+          }
         }
       });
     }
