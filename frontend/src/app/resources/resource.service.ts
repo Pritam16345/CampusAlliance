@@ -30,7 +30,7 @@ export interface ResourceDto {
   providedIn: 'root'
 })
 export class ResourceService {
-  private apiUrl = 'http://localhost:8080/api/resources';
+  private apiUrl = 'https://campus-alliance-api.onrender.com/api/resources';
 
   constructor(private http: HttpClient) {}
 

@@ -13,7 +13,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'https://campus-alliance-api.onrender.com/api/auth';
   
   private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getStoredUser());
   public currentUser$ = this.currentUserSubject.asObservable();

@@ -31,7 +31,7 @@ export interface ActuatorHealth {
   providedIn: 'root'
 })
 export class SystemHealthService {
-  private actuatorUrl = 'http://localhost:8080/actuator/health';
+  private actuatorUrl = 'https://campus-alliance-api.onrender.com/actuator/health';
 
   constructor(private http: HttpClient) {}
 

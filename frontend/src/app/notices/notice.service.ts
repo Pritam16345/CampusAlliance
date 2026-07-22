@@ -19,8 +19,8 @@ export interface NoticeDto {
   providedIn: 'root'
 })
 export class NoticeService {
-  private apiUrl = 'http://localhost:8080/api/notices';
-  private sseUrl = 'http://localhost:8080/api/sse/notices';
+  private apiUrl = 'https://campus-alliance-api.onrender.com/api/notices';
+  private sseUrl = 'https://campus-alliance-api.onrender.com/api/sse/notices';
 
   constructor(private http: HttpClient, private authService: AuthService, private zone: NgZone) {}
 
