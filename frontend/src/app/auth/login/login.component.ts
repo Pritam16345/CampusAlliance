@@ -12,10 +12,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+  authForm: FormGroup;
   selectedRole: string = 'STUDENT'; // default tab
   errorMessage: string = '';
   isLoading: boolean = false;
+  isRegisterMode: boolean = false;
 
   roles = [
     { id: 'STUDENT', label: 'Student' },
@@ -28,33 +29,59 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {
-    this.loginForm = this.fb.group({
+    this.authForm = this.fb.group({
+      fullName: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      adminSecretKey: ['']
     });
   }
 
   setRole(roleId: string) {
     this.selectedRole = roleId;
+    this.errorMessage = '';
+  }
+
+  toggleMode() {
+    this.isRegisterMode = !this.isRegisterMode;
+    this.errorMessage = '';
+    if (this.isRegisterMode) {
+      this.authForm.get('fullName')?.setValidators([Validators.required]);
+    } else {
+      this.authForm.get('fullName')?.clearValidators();
+    }
+    this.authForm.get('fullName')?.updateValueAndValidity();
   }
 
   onSubmit() {
-    if (this.loginForm.invalid) return;
+    if (this.authForm.invalid) return;
 
     this.isLoading = true;
     this.errorMessage = '';
 
-    // The backend login currently only checks email and password, 
-    // but the UI shows tabs for roles. In a real system, the role 
-    // tab might direct to different auth flows. For now, we just pass credentials.
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        this.router.navigate(['/resources']);
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = err.error?.message || 'Invalid email or password';
-      }
-    });
+    const formData = { ...this.authForm.value, role: this.selectedRole };
+
+    if (this.isRegisterMode) {
+      this.authService.register(formData).subscribe({
+        next: (res) => {
+          this.router.navigate(['/resources']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = err.error?.message || 'Registration failed. Please check your details.';
+        }
+      });
+    } else {
+      const loginData = { email: formData.email, password: formData.password };
+      this.authService.login(loginData).subscribe({
+        next: (res) => {
+          this.router.navigate(['/resources']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Invalid credentials. Please verify your email and password.';
+        }
+      });
+    }
   }
 }
