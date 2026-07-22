@@ -1,0 +1,137 @@
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.brand-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.logo-icon-large {
+  background-color: var(--primary-color);
+  color: var(--text-inverse);
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.brand-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.brand-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.role-tabs {
+  display: flex;
+  background-color: #f1f5f9;
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.role-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+}
+
+.role-tab.active {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.with-icon {
+  padding-left: 36px;
+}
+
+.mb-1 { margin-bottom: 4px; }
+.mb-0 { margin-bottom: 0; }
+
+.forgot-link {
+  font-size: 12px;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+.forgot-link:hover { text-decoration: underline; }
+
+.btn-block {
+  width: 100%;
+}
+
+.sign-in-btn {
+  gap: 8px;
+  padding: 12px;
+  font-size: 15px;
+  margin-top: 16px;
+}
+
+.terms-text {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 12px;
+  font-family: monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.terms-text svg {
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.error-msg {
+  color: var(--badge-important-text);
+  font-size: 13px;
+  margin-bottom: 12px;
+}

@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: campus-alliance
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/campusalliance
+    username: postgres
+    password: postgres
+
+  jpa:
+    # "update" auto-applies schema changes — fine for dev.
+    # Production would use Flyway or Liquibase migrations.
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# JWT config — wired up in the auth step
+app:
+  jwt:
+    secret: Y2FtcHVzLWFsbGlhbmNlLWp3dC1zZWNyZXQta2V5LXRoYXQtaXMtbG9uZy1lbm91Z2gtZm9yLWhtYWMtc2hhMjU2
+    expiration-ms: 86400000 # 24 hours
+
+# Actuator — expose health endpoint (Step 8 will configure further)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always # Shows DB status, disk space, etc.
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "Campus Alliance API"
+    description: "University campus portal — backend"
+    version: "1.0.0"
+
+server:
+  port: 8080

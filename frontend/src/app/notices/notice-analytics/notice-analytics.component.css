@@ -1,0 +1,26 @@
+.breadcrumb {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+}
+.back-link {
+  color: var(--text-primary); text-decoration: none; display: flex;
+}
+.crumbs { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+
+.analytics-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;
+}
+
+/* Donut Chart CSS Trick */
+.chart-container {
+  width: 140px; height: 140px; position: relative;
+}
+.donut-chart {
+  width: 100%; height: 100%; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.donut-hole {
+  width: 100px; height: 100px; background-color: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; color: var(--text-primary);
+}
+
+.student-row:hover { background-color: #f8fafc; }
