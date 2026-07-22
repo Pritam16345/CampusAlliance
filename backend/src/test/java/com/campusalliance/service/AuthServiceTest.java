@@ -32,7 +32,7 @@ class AuthServiceTest {
     @Test
     void register_Success() {
         // Arrange
-        RegisterRequest request = new RegisterRequest("Alice", "alice@test.com", "password123", "STUDENT", null);
+        RegisterRequest request = new RegisterRequest("Alice", "alice@test.com", "password123", "STUDENT");
         
         when(userRepository.existsByEmail(request.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(request.getPassword())).thenReturn("hashed-pwd");
@@ -53,7 +53,7 @@ class AuthServiceTest {
     @Test
     void register_DuplicateEmail_ThrowsException() {
         // Arrange
-        RegisterRequest request = new RegisterRequest("Bob", "bob@test.com", "pwd", "STUDENT", null);
+        RegisterRequest request = new RegisterRequest("Bob", "bob@test.com", "pwd", "STUDENT");
         when(userRepository.existsByEmail("bob@test.com")).thenReturn(true);
 
         // Act & Assert
