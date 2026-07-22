@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,6 +34,14 @@ public class AuthService {
             role = Role.valueOf(request.getRole().toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid role. Must be STUDENT, FACULTY, or ADMIN");
+        }
+
+        // Validate Admin Secret Key if attempting to register as ADMIN
+        if (role == Role.ADMIN) {
+            String expectedKey = "campus-admin-2026";
+            if (request.getAdminSecretKey() == null || !request.getAdminSecretKey().equals(expectedKey)) {
+                throw new IllegalArgumentException("Invalid Admin Secret Key. You are not authorized to create an Admin account.");
+            }
         }
 
         User user = User.builder()
