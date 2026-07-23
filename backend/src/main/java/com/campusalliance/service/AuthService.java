@@ -21,6 +21,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
+    private final AuditLogService auditLogService;
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -47,6 +48,8 @@ public class AuthService {
                 .role(role)
                 .build();
         userRepository.save(user);
+
+        auditLogService.log("USER_REGISTERED", user.getEmail(), "Role: " + role);
 
         // generate token so user is logged in right after registering
         String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name());

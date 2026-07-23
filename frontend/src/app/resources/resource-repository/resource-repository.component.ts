@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ResourceService, ResourceDto, ResourceVersionDto } from '../resource.service';
+import { BookmarkService } from '../../bookmarks/bookmark.service';
 
 @Component({
   selector: 'app-resource-repository',
@@ -12,6 +13,7 @@ import { ResourceService, ResourceDto, ResourceVersionDto } from '../resource.se
 })
 export class ResourceRepositoryComponent implements OnInit {
   resources: ResourceDto[] = [];
+  bookmarkedMap: { [id: number]: boolean } = {};
   searchQuery: string = '';
   
   // Version History Panel state
@@ -22,7 +24,10 @@ export class ResourceRepositoryComponent implements OnInit {
   isUploadModalOpen = false;
   uploadData = { title: '', courseName: '', description: '', file: null as File | null };
 
-  constructor(private resourceService: ResourceService) {}
+  constructor(
+    private resourceService: ResourceService,
+    private bookmarkService: BookmarkService
+  ) {}
 
   ngOnInit(): void {
     this.loadResources();
@@ -30,8 +35,23 @@ export class ResourceRepositoryComponent implements OnInit {
 
   loadResources() {
     this.resourceService.getResources(this.searchQuery).subscribe({
-      next: (data) => this.resources = data,
+      next: (data) => {
+        this.resources = data;
+        this.resources.forEach(r => this.checkBookmarkStatus(r.id));
+      },
       error: (err) => console.error('Error loading resources', err)
+    });
+  }
+
+  checkBookmarkStatus(id: number) {
+    this.bookmarkService.checkBookmark('RESOURCE', id).subscribe(res => {
+      this.bookmarkedMap[id] = res.bookmarked;
+    });
+  }
+
+  toggleBookmark(resource: ResourceDto) {
+    this.bookmarkService.toggleBookmark('RESOURCE', resource.id).subscribe(res => {
+      this.bookmarkedMap[resource.id] = res.bookmarked;
     });
   }
 
@@ -108,5 +128,15 @@ export class ResourceRepositoryComponent implements OnInit {
     if (!resource.versions || resource.versions.length === 0) return undefined;
     // Assuming backend returns them in order, or we take the highest versionNumber
     return resource.versions.reduce((prev, current) => (prev.versionNumber > current.versionNumber) ? prev : current);
+  }
+
+  rateResource(resource: ResourceDto, rating: number) {
+    this.resourceService.rateResource(resource.id, rating).subscribe({
+      next: () => {
+        // Optimistically update or reload
+        this.loadResources();
+      },
+      error: (err) => console.error('Failed to rate resource', err)
+    });
   }
 }

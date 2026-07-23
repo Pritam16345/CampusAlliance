@@ -13,6 +13,7 @@ export interface NoticeDto {
   updatedAt: string;
   version: number;
   seenCount: number;
+  targetAudience?: string;
 }
 
 @Injectable({
@@ -32,8 +33,8 @@ export class NoticeService {
     return this.http.get<NoticeDto>(`${this.apiUrl}/${id}`);
   }
 
-  createNotice(title: string, content: string): Observable<NoticeDto> {
-    return this.http.post<NoticeDto>(this.apiUrl, { title, content });
+  createNotice(title: string, content: string, targetAudience?: string): Observable<NoticeDto> {
+    return this.http.post<NoticeDto>(this.apiUrl, { title, content, targetAudience });
   }
 
   updateNotice(id: number, title: string, content: string, version: number): Observable<NoticeDto> {

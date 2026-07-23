@@ -7,6 +7,9 @@ import { ResourceRepositoryComponent } from './resources/resource-repository/res
 import { LiveNoticesComponent } from './notices/live-notices/live-notices.component';
 import { NoticeAnalyticsComponent } from './notices/notice-analytics/notice-analytics.component';
 import { SystemHealthComponent } from './health/system-health.component';
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { AuditLogsComponent } from './admin/audit-logs/audit-logs.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,6 +29,19 @@ export const routes: Routes = [
       { 
         path: 'health', 
         component: SystemHealthComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] }
+      },
+      { path: 'bookmarks', component: BookmarksComponent },
+      { 
+        path: 'admin/users', 
+        component: UserManagementComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN'] }
+      },
+      { 
+        path: 'admin/audit-logs', 
+        component: AuditLogsComponent,
         canActivate: [roleGuard],
         data: { roles: ['ADMIN'] }
       },
