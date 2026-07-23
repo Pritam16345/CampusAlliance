@@ -14,4 +14,6 @@ public class NoticeDto {
     private long seenCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String targetAudience;
+    private Long commentCount;
 }

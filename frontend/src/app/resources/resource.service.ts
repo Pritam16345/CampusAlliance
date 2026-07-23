@@ -24,6 +24,8 @@ export interface ResourceDto {
   versions: ResourceVersionDto[];
   createdAt: string;
   updatedAt: string;
+  averageRating?: number;
+  ratingCount?: number;
 }
 
 @Injectable({
@@ -71,5 +73,9 @@ export class ResourceService {
     }
     // We fetch it as a blob so we can trigger the browser download
     return this.http.get(url, { responseType: 'blob' });
+  }
+
+  rateResource(id: number, rating: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${id}/rate?rating=${rating}`, {});
   }
 }

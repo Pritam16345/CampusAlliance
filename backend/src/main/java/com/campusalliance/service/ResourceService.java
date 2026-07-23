@@ -9,6 +9,9 @@ import com.campusalliance.exception.ResourceNotFoundException;
 import com.campusalliance.repository.ResourceRepository;
 import com.campusalliance.repository.ResourceVersionRepository;
 import com.campusalliance.repository.UserRepository;
+import com.campusalliance.repository.ResourceRatingRepository;
+import com.campusalliance.entity.ResourceRating;
+import com.campusalliance.dto.ResourceRatingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class ResourceService {
     private final ResourceRepository resourceRepository;
     private final ResourceVersionRepository versionRepository;
     private final UserRepository userRepository;
+    private final ResourceRatingRepository resourceRatingRepository;
+    private final AuditLogService auditLogService;
 
     /**
      * Create a new resource with its first file version.
@@ -45,6 +50,8 @@ public class ResourceService {
 
         // create version 1
         createVersion(resource, file, uploader, 1);
+
+        auditLogService.log("RESOURCE_UPLOADED", uploaderEmail, "Title: " + title);
 
         return toDto(resource);
     }
@@ -116,6 +123,40 @@ public class ResourceService {
         resourceRepository.deleteById(id);
     }
 
+    @Transactional
+    public void rateResource(Long resourceId, int rating, String userEmail) {
+        Resource resource = resourceRepository.findById(resourceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource", resourceId));
+        User user = findUserByEmail(userEmail);
+
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
+
+        ResourceRating resourceRating = resourceRatingRepository.findByResourceIdAndUserId(resourceId, user.getId())
+                .orElse(ResourceRating.builder()
+                        .resource(resource)
+                        .user(user)
+                        .build());
+
+        resourceRating.setRating(rating);
+        resourceRatingRepository.save(resourceRating);
+    }
+
+    public List<ResourceRatingDto> getResourceRatings(Long resourceId) {
+        if (!resourceRepository.existsById(resourceId)) {
+            throw new ResourceNotFoundException("Resource", resourceId);
+        }
+        return resourceRatingRepository.findByResourceId(resourceId).stream().map(r -> ResourceRatingDto.builder()
+                .id(r.getId())
+                .resourceId(r.getResource().getId())
+                .userId(r.getUser().getId())
+                .userName(r.getUser().getFullName())
+                .rating(r.getRating())
+                .createdAt(r.getCreatedAt())
+                .build()).toList();
+    }
+
     // --- helper methods ---
 
     private ResourceVersion createVersion(Resource resource, MultipartFile file,
@@ -138,6 +179,8 @@ public class ResourceService {
     }
 
     private ResourceDto toDto(Resource r) {
+        Double avgRating = resourceRatingRepository.getAverageRating(r.getId());
+        Long count = resourceRatingRepository.countByResourceId(r.getId());
         return ResourceDto.builder()
                 .id(r.getId())
                 .title(r.getTitle())
@@ -147,6 +190,8 @@ public class ResourceService {
                 .totalVersions(r.getVersions().size())
                 .createdAt(r.getCreatedAt())
                 .updatedAt(r.getUpdatedAt())
+                .averageRating(avgRating != null ? avgRating : 0.0)
+                .ratingCount(count)
                 .build();
     }
 

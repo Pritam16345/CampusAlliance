@@ -38,4 +38,8 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING) // Store "STUDENT" not 0 — readable in DB queries
     @Column(nullable = false)
     private Role role;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean active = true;
 }

@@ -9,6 +9,7 @@ import com.campusalliance.exception.ResourceNotFoundException;
 import com.campusalliance.repository.NoticeRepository;
 import com.campusalliance.repository.NoticeSeenByRepository;
 import com.campusalliance.repository.UserRepository;
+import com.campusalliance.repository.NoticeCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,9 @@ public class NoticeService {
     private final NoticeRepository noticeRepository;
     private final NoticeSeenByRepository seenByRepository;
     private final UserRepository userRepository;
+    private final NoticeCommentRepository noticeCommentRepository;
     private final SseService sseService;
+    private final AuditLogService auditLogService;
 
     @Transactional
     public NoticeDto createNotice(NoticeRequest request, String posterEmail) {
@@ -33,8 +36,12 @@ public class NoticeService {
                 .title(request.getTitle())
                 .content(request.getContent())
                 .postedBy(poster)
+                .targetAudience(request.getTargetAudience())
                 .build();
         noticeRepository.save(notice);
+        
+        auditLogService.log("NOTICE_CREATED", posterEmail, "Title: " + request.getTitle());
+        
         NoticeDto dto = toDto(notice);
 
         // push to all connected SSE clients
@@ -55,6 +62,7 @@ public class NoticeService {
 
         notice.setTitle(request.getTitle());
         notice.setContent(request.getContent());
+        notice.setTargetAudience(request.getTargetAudience());
         // set the version from the client so JPA can detect conflicts
         notice.setVersion(request.getVersion());
 
@@ -113,6 +121,7 @@ public class NoticeService {
 
     private NoticeDto toDto(Notice n) {
         long seenCount = seenByRepository.countByNoticeId(n.getId());
+        long commentCount = noticeCommentRepository.countByNoticeId(n.getId());
         return NoticeDto.builder()
                 .id(n.getId())
                 .title(n.getTitle())
@@ -122,6 +131,8 @@ public class NoticeService {
                 .seenCount(seenCount)
                 .createdAt(n.getCreatedAt())
                 .updatedAt(n.getUpdatedAt())
+                .targetAudience(n.getTargetAudience())
+                .commentCount(commentCount)
                 .build();
     }
 }

@@ -1,0 +1,54 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>User Management</h1>
+    <p>Manage all registered users in the system</p>
+  </div>
+
+  <div class="stats-grid mb-4" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px;">
+    <div class="card" style="padding: 20px;">
+      <h3 style="margin:0; font-size:14px; color:var(--text-secondary)">Total Students</h3>
+      <p style="margin:8px 0 0 0; font-size:24px; font-weight:bold">{{stats.students}}</p>
+    </div>
+    <div class="card" style="padding: 20px;">
+      <h3 style="margin:0; font-size:14px; color:var(--text-secondary)">Total Faculty</h3>
+      <p style="margin:8px 0 0 0; font-size:24px; font-weight:bold">{{stats.faculty}}</p>
+    </div>
+    <div class="card" style="padding: 20px;">
+      <h3 style="margin:0; font-size:14px; color:var(--text-secondary)">Total Admins</h3>
+      <p style="margin:8px 0 0 0; font-size:24px; font-weight:bold">{{stats.admins}}</p>
+    </div>
+  </div>
+
+  <div class="card p-0" style="padding:0; overflow:hidden">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>EMAIL</th>
+          <th>ROLE</th>
+          <th>JOINED DATE</th>
+          <th>STATUS</th>
+          <th>ACTIONS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of users">
+          <td>{{u.name}}</td>
+          <td>{{u.email}}</td>
+          <td><span class="badge" [ngClass]="u.role.toLowerCase()">{{u.role}}</span></td>
+          <td>{{u.createdAt | date:'mediumDate'}}</td>
+          <td>
+            <span class="badge" [class.badge-success]="u.active" [class.badge-danger]="!u.active">
+              {{u.active ? 'Active' : 'Suspended'}}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline" style="font-size: 12px; padding: 4px 8px;" (click)="toggleStatus(u.id)">
+              {{u.active ? 'Suspend' : 'Activate'}}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -17,4 +17,6 @@ public class ResourceDto {
     private int totalVersions;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Double averageRating;
+    private Long ratingCount;
 }

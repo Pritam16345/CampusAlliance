@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NoticeService, NoticeDto } from '../notice.service';
 import { AuthService } from '../../auth/auth.service';
+import { BookmarkService } from '../../bookmarks/bookmark.service';
+import { CommentService } from '../comment.service';
 
 @Component({
   selector: 'app-live-notices',
@@ -20,11 +22,21 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
 
   // New Notice Modal
   isModalOpen = false;
-  newNotice = { title: '', content: '' };
+  newNotice = { title: '', content: '', targetAudience: 'All Students' };
+  
+  // Bookmarks
+  bookmarkedMap: { [id: number]: boolean } = {};
+  
+  // Comments
+  expandedComments: { [id: number]: boolean } = {};
+  commentsMap: { [id: number]: any[] } = {};
+  newCommentText: { [id: number]: string } = {};
 
   constructor(
     private noticeService: NoticeService, 
     private authService: AuthService,
+    private bookmarkService: BookmarkService,
+    private commentService: CommentService,
     private router: Router
   ) {}
 
@@ -35,6 +47,7 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
     this.noticeService.getNotices().subscribe(data => {
       // Sort newest first
       this.notices = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      this.notices.forEach(n => this.checkBookmarkStatus(n.id));
     });
 
     // Start SSE stream for live updates
@@ -61,19 +74,59 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
   
   closeModal() {
     this.isModalOpen = false;
-    this.newNotice = { title: '', content: '' };
+    this.newNotice = { title: '', content: '', targetAudience: 'All Students' };
   }
 
   submitNotice() {
     if (!this.newNotice.title || !this.newNotice.content) return;
     
-    this.noticeService.createNotice(this.newNotice.title, this.newNotice.content).subscribe({
+    this.noticeService.createNotice(this.newNotice.title, this.newNotice.content, this.newNotice.targetAudience).subscribe({
       next: (res) => {
         this.closeModal();
-        // SSE will push the notice to us anyway, so we don't strictly need to add it here, 
-        // but doing it makes the UI feel instantly responsive.
       },
       error: () => alert('Failed to create notice')
+    });
+  }
+
+  checkBookmarkStatus(id: number) {
+    this.bookmarkService.checkBookmark('NOTICE', id).subscribe(res => {
+      this.bookmarkedMap[id] = res.bookmarked;
+    });
+  }
+
+  toggleBookmark(notice: NoticeDto) {
+    this.bookmarkService.toggleBookmark('NOTICE', notice.id).subscribe(res => {
+      this.bookmarkedMap[notice.id] = res.bookmarked;
+    });
+  }
+
+  toggleComments(noticeId: number) {
+    if (this.expandedComments[noticeId]) {
+      this.expandedComments[noticeId] = false;
+    } else {
+      this.expandedComments[noticeId] = true;
+      this.loadComments(noticeId);
+    }
+  }
+
+  loadComments(noticeId: number) {
+    this.commentService.getComments(noticeId).subscribe(data => {
+      this.commentsMap[noticeId] = data;
+    });
+  }
+
+  addComment(noticeId: number) {
+    const content = this.newCommentText[noticeId];
+    if (!content || !content.trim()) return;
+    this.commentService.addComment(noticeId, content).subscribe(() => {
+      this.newCommentText[noticeId] = '';
+      this.loadComments(noticeId);
+    });
+  }
+
+  deleteComment(noticeId: number, commentId: number) {
+    this.commentService.deleteComment(noticeId, commentId).subscribe(() => {
+      this.loadComments(noticeId);
     });
   }
 

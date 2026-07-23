@@ -121,3 +121,10 @@
   display: flex; align-items: center; justify-content: center;
 }
 .modal { width: 450px; background: white; border-radius: 12px; }
+
+.rating-display { font-size: 12px; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+.star { cursor: pointer; color: #e0e0e0; font-size: 16px; transition: color 0.2s; }
+.star:hover { color: #fbc02d; }
+.star.filled { color: #fbc02d; }
+.actions-flex { display: flex; gap: 8px; align-items: center; }
+.btn-icon.active-bookmark { color: var(--primary-color); }

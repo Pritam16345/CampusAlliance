@@ -2,8 +2,9 @@ package com.campusalliance.controller;
 
 import com.campusalliance.dto.ResourceDto;
 import com.campusalliance.dto.ResourceVersionDto;
-import com.campusalliance.entity.ResourceVersion;
 import com.campusalliance.service.ResourceService;
+import com.campusalliance.dto.ResourceRatingDto;
+import com.campusalliance.entity.ResourceVersion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -93,5 +94,19 @@ public class ResourceController {
     public ResponseEntity<Void> deleteResource(@PathVariable Long id) {
         resourceService.deleteResource(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/rate")
+    public ResponseEntity<Void> rateResource(
+            @PathVariable Long id,
+            @RequestParam int rating,
+            Authentication auth) {
+        resourceService.rateResource(id, rating, auth.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/ratings")
+    public ResponseEntity<List<ResourceRatingDto>> getResourceRatings(@PathVariable Long id) {
+        return ResponseEntity.ok(resourceService.getResourceRatings(id));
     }
 }

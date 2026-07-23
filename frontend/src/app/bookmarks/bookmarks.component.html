@@ -1,0 +1,29 @@
+<div class="page-container">
+  <div class="page-header">
+    <h1>My Bookmarks</h1>
+    <p>Items you've saved for later</p>
+  </div>
+
+  <div class="bookmarks-grid" *ngIf="bookmarks.length > 0; else noBookmarks">
+    <div class="bookmark-card" *ngFor="let bm of bookmarks" (click)="navigateToItem(bm)">
+      <div class="card-header">
+        <span class="badge" [ngClass]="bm.targetType.toLowerCase()">{{ bm.targetType }}</span>
+        <button class="btn-icon unbookmark-btn" (click)="unbookmark(bm.id, bm.targetType, bm.targetId, $event)" title="Remove Bookmark">
+          ★
+        </button>
+      </div>
+      <div class="card-body">
+        <h3 class="title">{{ bm.title }}</h3>
+        <p class="date">Saved on {{ bm.createdAt | date:'mediumDate' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noBookmarks>
+    <div class="empty-state">
+      <div class="empty-icon">☆</div>
+      <h3>No bookmarks yet</h3>
+      <p>Save notices and resources to find them easily later.</p>
+    </div>
+  </ng-template>
+</div>

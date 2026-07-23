@@ -35,6 +35,9 @@ public class Notice extends Auditable {
     @Column(nullable = false, length = 5000)
     private String content;
 
+    @Column
+    private String targetAudience;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "posted_by", nullable = false)
     private User postedBy;
