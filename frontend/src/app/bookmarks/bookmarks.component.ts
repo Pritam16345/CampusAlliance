@@ -39,7 +39,7 @@ export class BookmarksComponent implements OnInit {
 
   navigateToItem(bookmark: any) {
     if (bookmark.targetType === 'NOTICE') {
-      this.router.navigate(['/live-notices']); // Or specific notice if we had route
+      this.router.navigate(['/notices']); // Or specific notice if we had route
     } else if (bookmark.targetType === 'RESOURCE') {
       this.router.navigate(['/resources']);
     }

@@ -156,11 +156,7 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
     return 'Admin'; // default
   }
 
-  getSeenPercentage(seenCount: number): number {
-    // mock target audience of 200
-    const target = 200;
-    return Math.min(Math.round((seenCount / target) * 100), 100);
-  }
+
 
   getTimeAgo(dateString: string): string {
     const date = new Date(dateString);

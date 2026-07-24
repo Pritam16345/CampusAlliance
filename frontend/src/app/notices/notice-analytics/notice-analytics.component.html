@@ -37,10 +37,7 @@
           <p style="white-space: pre-wrap;">{{ notice.content }}</p>
         </div>
         
-        <div class="action-buttons flex gap-4" style="margin-top: 48px; border-top:1px solid var(--border-color); padding-top:24px;">
-          <button class="btn btn-outline" style="font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> Edit Notice</button>
-          <button class="btn btn-outline" style="color:var(--badge-important-text); border-color:#fca5a5; font-weight:600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Retract</button>
-        </div>
+
       </div>
     </div>
 
@@ -49,9 +46,9 @@
       
       <div class="card flex justify-between items-center" style="padding: 24px;">
         <div>
-          <p style="font-size:12px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Total Target Audience</p>
+          <p style="font-size:12px; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Total Views</p>
           <div style="font-size:42px; font-weight:700; color:var(--text-primary); line-height:1;">
-            {{ targetAudience }} <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">Students</span>
+            {{ notice.seenCount }} <span style="font-size:14px; font-weight:500; color:var(--text-secondary);">Views</span>
           </div>
         </div>
         <div class="audience-icon" style="background-color:var(--primary-color); color:white; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
@@ -94,34 +91,6 @@
       <div class="card p-0">
         <div style="padding:24px 24px 16px;">
           <h3 style="font-size:18px; font-weight:600; margin-bottom:16px;">Audience Tracking</h3>
-          <div class="search-box" style="position:relative;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute; left:12px; top:12px; color:var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" class="form-control" style="padding-left:36px;" placeholder="Search students by name or ID...">
-          </div>
-          
-          <div class="tabs flex" style="margin-top:16px; background-color:#f1f5f9; border-radius:8px; padding:4px;">
-            <button class="tab active" style="flex:1; border:none; background:white; padding:6px; border-radius:6px; font-size:12px; font-weight:500; box-shadow:var(--shadow-sm);">Seen ({{notice.seenCount}})</button>
-            <button class="tab" style="flex:1; border:none; background:transparent; padding:6px; color:var(--text-secondary); font-size:12px; font-weight:500;">Unseen ({{unseenCount}})</button>
-          </div>
-        </div>
-        
-        <div class="student-list" style="border-top:1px solid var(--border-color);">
-          <div class="student-row flex justify-between items-center" style="padding:16px 24px; border-bottom:1px solid var(--border-color);" *ngFor="let student of mockStudents">
-            <div class="flex gap-3 items-center">
-              <div class="avatar-sm" style="width:36px; height:36px; background-color:#cbd5e1; font-size:14px;">{{ student.name.charAt(0) }}</div>
-              <div>
-                <p style="font-size:14px; font-weight:600; margin-bottom:2px;">{{ student.name }}</p>
-                <p style="font-size:11px; font-family:monospace; color:var(--text-muted);">ID: {{ student.id }}</p>
-              </div>
-            </div>
-            <div class="badge badge-admin" style="font-size:11px; padding:4px 8px;">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-              {{ student.seenAt }}
-            </div>
-          </div>
-        </div>
-        <div style="padding:12px; text-align:center; background-color:#f8fafc; border-bottom-left-radius:8px; border-bottom-right-radius:8px;">
-          <button style="border:none; background:transparent; font-size:12px; font-weight:600; color:var(--text-secondary); cursor:pointer;">Load More (139)</button>
         </div>
       </div>
     </div>

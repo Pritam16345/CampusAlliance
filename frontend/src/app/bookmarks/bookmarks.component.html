@@ -9,7 +9,7 @@
       <div class="card-header">
         <span class="badge" [ngClass]="bm.targetType.toLowerCase()">{{ bm.targetType }}</span>
         <button class="btn-icon unbookmark-btn" (click)="unbookmark(bm.id, bm.targetType, bm.targetId, $event)" title="Remove Bookmark">
-          ★
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
         </button>
       </div>
       <div class="card-body">
@@ -21,7 +21,9 @@
 
   <ng-template #noBookmarks>
     <div class="empty-state">
-      <div class="empty-icon">☆</div>
+      <div class="empty-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
       <h3>No bookmarks yet</h3>
       <p>Save notices and resources to find them easily later.</p>
     </div>
