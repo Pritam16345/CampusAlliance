@@ -1,8 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
+
+export function collegeEmailValidator(control: AbstractControl): ValidationErrors | null {
+  const email = control.value;
+  if (!email) return null;
+  const isCollege = email.endsWith('.edu') || email.endsWith('.ac.in');
+  return !isCollege ? { notCollegeEmail: true } : null;
+}
 
 @Component({
   selector: 'app-login',
@@ -26,11 +33,12 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.authForm = this.fb.group({
       fullName: [''],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, collegeEmailValidator]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
@@ -43,6 +51,7 @@ export class LoginComponent {
   toggleMode() {
     this.isRegisterMode = !this.isRegisterMode;
     this.errorMessage = '';
+    this.authForm.reset();
     if (this.isRegisterMode) {
       this.authForm.get('fullName')?.setValidators([Validators.required]);
     } else {
@@ -52,7 +61,10 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.authForm.invalid) return;
+    if (this.authForm.invalid) {
+      this.authForm.markAllAsTouched();
+      return;
+    }
 
     this.isLoading = true;
     this.errorMessage = '';
@@ -71,6 +83,7 @@ export class LoginComponent {
           } else {
             this.errorMessage = err.error?.message || 'Registration failed. Please check your details.';
           }
+          this.cdr.detectChanges();
         }
       });
     } else {
@@ -86,6 +99,7 @@ export class LoginComponent {
           } else {
             this.errorMessage = err.error?.message || 'Invalid credentials. Please verify your email and password.';
           }
+          this.cdr.detectChanges();
         }
       });
     }

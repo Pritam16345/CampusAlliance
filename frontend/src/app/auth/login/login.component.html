@@ -26,7 +26,11 @@
         <label class="form-label">Full Name</label>
         <div class="input-wrapper">
           <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <input type="text" class="form-control with-icon" formControlName="fullName" placeholder="Your Full Name">
+          <input type="text" class="form-control with-icon" formControlName="fullName" placeholder="Your Full Name"
+                 [class.is-invalid]="authForm.get('fullName')?.touched && authForm.get('fullName')?.invalid">
+        </div>
+        <div class="field-error" *ngIf="authForm.get('fullName')?.touched && authForm.get('fullName')?.errors?.['required']">
+          Full Name is required.
         </div>
       </div>
 
@@ -34,7 +38,17 @@
         <label class="form-label">Institutional Email</label>
         <div class="input-wrapper">
           <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <input type="email" class="form-control with-icon" formControlName="email" placeholder="rollnumber@kiit.ac.in">
+          <input type="email" class="form-control with-icon" formControlName="email" placeholder="rollnumber@kiit.ac.in"
+                 [class.is-invalid]="authForm.get('email')?.touched && authForm.get('email')?.invalid">
+        </div>
+        <div class="field-error" *ngIf="authForm.get('email')?.touched && authForm.get('email')?.errors?.['required']">
+          Email is required.
+        </div>
+        <div class="field-error" *ngIf="authForm.get('email')?.touched && authForm.get('email')?.errors?.['email']">
+          Please enter a valid email format.
+        </div>
+        <div class="field-error" *ngIf="authForm.get('email')?.touched && authForm.get('email')?.errors?.['notCollegeEmail']">
+          Please use a valid institutional email (.edu or .ac.in).
         </div>
       </div>
 
@@ -42,7 +56,14 @@
         <label class="form-label mb-1">Password</label>
         <div class="input-wrapper">
           <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <input type="password" class="form-control with-icon" formControlName="password" placeholder="••••••••">
+          <input type="password" class="form-control with-icon" formControlName="password" placeholder="••••••••"
+                 [class.is-invalid]="authForm.get('password')?.touched && authForm.get('password')?.invalid">
+        </div>
+        <div class="field-error" *ngIf="authForm.get('password')?.touched && authForm.get('password')?.errors?.['required']">
+          Password is required.
+        </div>
+        <div class="field-error" *ngIf="authForm.get('password')?.touched && authForm.get('password')?.errors?.['minlength']">
+          Password must be at least 6 characters.
         </div>
       </div>
 
