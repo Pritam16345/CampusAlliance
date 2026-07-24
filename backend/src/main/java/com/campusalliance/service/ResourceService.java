@@ -76,21 +76,25 @@ public class ResourceService {
         return toVersionDto(version);
     }
 
+    @Transactional(readOnly = true)
     public List<ResourceDto> getAllResources() {
         // @SQLRestriction automatically filters out deleted resources
         return resourceRepository.findAll().stream().map(this::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ResourceDto> searchResources(String keyword) {
         return resourceRepository.searchByKeyword(keyword).stream().map(this::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
     public ResourceDto getResourceById(Long id) {
         Resource resource = resourceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource", id));
         return toDto(resource);
     }
 
+    @Transactional(readOnly = true)
     public List<ResourceVersionDto> getVersions(Long resourceId) {
         // make sure the resource exists first
         if (!resourceRepository.existsById(resourceId)) {

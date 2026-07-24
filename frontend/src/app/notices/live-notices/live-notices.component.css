@@ -66,7 +66,8 @@
 
 .notice-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
 .notice-body { font-size: 14px; color: var(--text-secondary); line-height: 1.5;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: all 0.3s ease; }
+.notice-body.expanded { display: block; -webkit-line-clamp: unset; overflow: visible; }
 
 .card-footer {
   padding: 16px 20px; border-top: 1px solid var(--border-color);

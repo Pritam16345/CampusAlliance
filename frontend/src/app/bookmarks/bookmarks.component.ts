@@ -37,6 +37,13 @@ export class BookmarksComponent implements OnInit {
     });
   }
 
+  expandedBookmarks: { [id: number]: boolean } = {};
+
+  toggleExpand(bookmarkId: number, event: Event) {
+    event.stopPropagation();
+    this.expandedBookmarks[bookmarkId] = !this.expandedBookmarks[bookmarkId];
+  }
+
   navigateToItem(bookmark: any) {
     if (bookmark.targetType === 'NOTICE') {
       this.router.navigate(['/notices']); // Or specific notice if we had route

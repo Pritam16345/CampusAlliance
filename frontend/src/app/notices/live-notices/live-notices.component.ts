@@ -32,6 +32,9 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
   commentsMap: { [id: number]: any[] } = {};
   newCommentText: { [id: number]: string } = {};
 
+  // Expand Full Text
+  expandedNotices: { [id: number]: boolean } = {};
+
   constructor(
     private noticeService: NoticeService, 
     private authService: AuthService,
@@ -98,6 +101,10 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
     this.bookmarkService.toggleBookmark('NOTICE', notice.id).subscribe(res => {
       this.bookmarkedMap[notice.id] = res.bookmarked;
     });
+  }
+
+  toggleExpand(noticeId: number) {
+    this.expandedNotices[noticeId] = !this.expandedNotices[noticeId];
   }
 
   toggleComments(noticeId: number) {

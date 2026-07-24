@@ -43,7 +43,12 @@
 
         
         <h3 class="notice-title">{{ notice.title }}</h3>
-        <p class="notice-body">{{ notice.content }}</p>
+        <p class="notice-body" [class.expanded]="expandedNotices[notice.id]" (click)="toggleExpand(notice.id)" style="cursor:pointer;" title="Click to expand/collapse">
+          {{ notice.content }}
+        </p>
+        <button class="btn btn-link" style="padding:0; margin-top:8px; font-size:13px; color:var(--primary-color);" (click)="toggleExpand(notice.id)" *ngIf="notice.content.length > 150">
+          {{ expandedNotices[notice.id] ? 'Show less' : 'Read more' }}
+        </button>
       </div>
       
       <div class="card-footer" style="flex-wrap: wrap;">

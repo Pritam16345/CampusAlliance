@@ -10,5 +10,6 @@ public class BookmarkDto {
     private String targetType;
     private Long targetId;
     private String title;
+    private String content;
     private LocalDateTime createdAt;
 }

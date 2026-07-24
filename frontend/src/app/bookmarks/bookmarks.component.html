@@ -14,7 +14,13 @@
       </div>
       <div class="card-body">
         <h3 class="title">{{ bm.title }}</h3>
-        <p class="date">Saved on {{ bm.createdAt | date:'mediumDate' }}</p>
+        <p *ngIf="bm.content" class="notice-body" [class.expanded]="expandedBookmarks[bm.id]" (click)="toggleExpand(bm.id, $event)" style="cursor:pointer; margin-top:8px;" title="Click to expand/collapse">
+          {{ bm.content }}
+        </p>
+        <button *ngIf="bm.content && bm.content.length > 100" class="btn btn-link" style="padding:0; margin-top:4px; font-size:12px; color:var(--primary-color);" (click)="toggleExpand(bm.id, $event)">
+          {{ expandedBookmarks[bm.id] ? 'Show less' : 'Read more' }}
+        </button>
+        <p class="date" style="margin-top:12px;">Saved on {{ bm.createdAt | date:'mediumDate' }}</p>
       </div>
     </div>
   </div>

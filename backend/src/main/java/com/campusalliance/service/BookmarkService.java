@@ -51,16 +51,30 @@ public class BookmarkService {
         
         return bookmarkRepository.findByUserIdOrderByCreatedAtDesc(user.getId()).stream().map(b -> {
             String title = "Unknown";
+            String content = "";
             if ("NOTICE".equals(b.getTargetType())) {
-                title = noticeRepository.findById(b.getTargetId()).map(n -> n.getTitle()).orElse("Deleted Notice");
+                var noticeOpt = noticeRepository.findById(b.getTargetId());
+                if (noticeOpt.isPresent()) {
+                    title = noticeOpt.get().getTitle();
+                    content = noticeOpt.get().getContent();
+                } else {
+                    title = "Deleted Notice";
+                }
             } else if ("RESOURCE".equals(b.getTargetType())) {
-                title = resourceRepository.findById(b.getTargetId()).map(r -> r.getTitle()).orElse("Deleted Resource");
+                var resourceOpt = resourceRepository.findById(b.getTargetId());
+                if (resourceOpt.isPresent()) {
+                    title = resourceOpt.get().getTitle();
+                    content = resourceOpt.get().getDescription();
+                } else {
+                    title = "Deleted Resource";
+                }
             }
             return BookmarkDto.builder()
                     .id(b.getId())
                     .targetType(b.getTargetType())
                     .targetId(b.getTargetId())
                     .title(title)
+                    .content(content)
                     .createdAt(b.getCreatedAt())
                     .build();
         }).toList();
