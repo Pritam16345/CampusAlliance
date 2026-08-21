@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class BookmarkService {
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/bookmarks';
+  private apiUrl = environment.apiUrl + '/api/bookmarks';
   constructor(private http: HttpClient) {}
   
   toggleBookmark(targetType: string, targetId: number): Observable<{bookmarked: boolean}> { 

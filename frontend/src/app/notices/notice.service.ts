@@ -2,6 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../environments/environment';
 
 export interface NoticeDto {
   id: number;
@@ -20,8 +21,8 @@ export interface NoticeDto {
   providedIn: 'root'
 })
 export class NoticeService {
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/notices';
-  private sseUrl = 'https://campus-alliance-api.onrender.com/api/sse/notices';
+  private apiUrl = environment.apiUrl + '/api/notices';
+  private sseUrl = environment.apiUrl + '/api/sse/notices';
 
   constructor(private http: HttpClient, private authService: AuthService, private zone: NgZone) {}
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ResourceVersionDto {
   id: number;
@@ -32,7 +33,7 @@ export interface ResourceDto {
   providedIn: 'root'
 })
 export class ResourceService {
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/resources';
+  private apiUrl = environment.apiUrl + '/api/resources';
 
   constructor(private http: HttpClient) {}
 

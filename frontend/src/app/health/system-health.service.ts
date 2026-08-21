@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface ActuatorHealth {
   status: string;
@@ -31,7 +32,7 @@ export interface ActuatorHealth {
   providedIn: 'root'
 })
 export class SystemHealthService {
-  private actuatorUrl = 'https://campus-alliance-api.onrender.com/actuator/health';
+  private actuatorUrl = environment.apiUrl + '/actuator/health';
 
   constructor(private http: HttpClient) {}
 

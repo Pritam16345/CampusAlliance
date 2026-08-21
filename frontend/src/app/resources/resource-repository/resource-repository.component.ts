@@ -74,9 +74,19 @@ export class ResourceRepositoryComponent implements OnInit {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      // We don't have the filename here easily from the blob response unless we parse content-disposition header.
-      // So we'll just use a fallback name or the user's browser will figure it out if we just open it.
-      a.download = this.selectedResource?.title || 'download';
+      
+      let fileName = 'download';
+      if (this.selectedResource && this.selectedResource.versions) {
+          if (versionId) {
+              const v = this.selectedResource.versions.find(v => v.id === versionId);
+              if (v) fileName = v.fileName;
+          } else {
+              const latest = this.getLatestVersion(this.selectedResource);
+              if (latest) fileName = latest.fileName;
+          }
+      }
+      
+      a.download = fileName;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class CommentService {
-  private baseUrl = 'https://campus-alliance-api.onrender.com/api/notices';
+  private baseUrl = environment.apiUrl + '/api/notices';
   constructor(private http: HttpClient) {}
   getComments(noticeId: number) { return this.http.get<any[]>(`${this.baseUrl}/${noticeId}/comments`); }
   addComment(noticeId: number, content: string) { return this.http.post<any>(`${this.baseUrl}/${noticeId}/comments`, {content}); }

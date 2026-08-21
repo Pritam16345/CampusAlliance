@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface AuthResponse {
   token: string;
@@ -13,7 +14,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/auth';
+  private apiUrl = environment.apiUrl + '/api/auth';
   
   private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getStoredUser());
   public currentUser$ = this.currentUserSubject.asObservable();

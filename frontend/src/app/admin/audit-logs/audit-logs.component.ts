@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-audit-logs',
@@ -11,7 +12,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuditLogsComponent implements OnInit {
   logs: any[] = [];
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/admin/audit-logs';
+  private apiUrl = environment.apiUrl + '/api/admin/audit-logs';
 
   constructor(private http: HttpClient) {}
 

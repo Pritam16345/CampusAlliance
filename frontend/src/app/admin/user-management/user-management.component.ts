@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-management',
@@ -12,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
 export class UserManagementComponent implements OnInit {
   users: any[] = [];
   stats = { students: 0, faculty: 0, admins: 0 };
-  private apiUrl = 'https://campus-alliance-api.onrender.com/api/admin/users';
+  private apiUrl = environment.apiUrl + '/api/admin/users';
 
   constructor(private http: HttpClient) {}
 
