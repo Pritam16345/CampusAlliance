@@ -32,18 +32,18 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         // Seed initial faculty accounts if they don't exist
-        seedUserIfNotExists("dr.sharma@kiit.ac.in", "faculty123", "Dr. Rajesh Sharma", Role.FACULTY);
-        seedUserIfNotExists("prof.das@kiit.ac.in", "faculty123", "Prof. Subhash Das", Role.FACULTY);
-        seedUserIfNotExists("dr.mukherjee@kiit.ac.in", "faculty123", "Dr. Swati Mukherjee", Role.FACULTY);
+        seedUserIfNotExists("dr.sharma@kiit.ac.in", "faculty1", "Dr. Rajesh Sharma", Role.FACULTY);
+        seedUserIfNotExists("prof.das@kiit.ac.in", "faculty2", "Prof. Subhash Das", Role.FACULTY);
+        seedUserIfNotExists("dr.mukherjee@kiit.ac.in", "faculty3", "Dr. Swati Mukherjee", Role.FACULTY);
 
         // Seed initial student accounts (23051800 to 23051806)
-        seedUserIfNotExists("23051800@kiit.ac.in", "password123", "Aarav Patel", Role.STUDENT);
-        seedUserIfNotExists("23051801@kiit.ac.in", "password123", "Ananya Roy", Role.STUDENT);
-        seedUserIfNotExists("23051802@kiit.ac.in", "password123", "Rohan Sharma", Role.STUDENT);
-        seedUserIfNotExists("23051803@kiit.ac.in", "password123", "Sneha Sen", Role.STUDENT);
-        seedUserIfNotExists("23051804@kiit.ac.in", "password123", "Vikram Verma", Role.STUDENT);
-        seedUserIfNotExists("23051805@kiit.ac.in", "password123", "Pooja Hegde", Role.STUDENT);
-        seedUserIfNotExists("23051806@kiit.ac.in", "password123", "Devendra Mehta", Role.STUDENT);
+        seedUserIfNotExists("23051800@kiit.ac.in", "student1800", "Aarav Patel", Role.STUDENT);
+        seedUserIfNotExists("23051801@kiit.ac.in", "student1801", "Ananya Roy", Role.STUDENT);
+        seedUserIfNotExists("23051802@kiit.ac.in", "student1802", "Rohan Sharma", Role.STUDENT);
+        seedUserIfNotExists("23051803@kiit.ac.in", "student1803", "Sneha Sen", Role.STUDENT);
+        seedUserIfNotExists("23051804@kiit.ac.in", "student1804", "Vikram Verma", Role.STUDENT);
+        seedUserIfNotExists("23051805@kiit.ac.in", "student1805", "Pooja Hegde", Role.STUDENT);
+        seedUserIfNotExists("23051806@kiit.ac.in", "student1806", "Devendra Mehta", Role.STUDENT);
     }
 
     private void seedUserIfNotExists(String email, String rawPassword, String fullName, Role role) {
