@@ -5,3 +5,8 @@ target/
 .vscode/
 *.log
 .env
+.env.*
+*.py
+*.pyc
+__pycache__/
+scratch/
