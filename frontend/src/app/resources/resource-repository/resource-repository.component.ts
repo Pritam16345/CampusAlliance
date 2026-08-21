@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ResourceService, ResourceDto, ResourceVersionDto } from '../resource.service';
 import { BookmarkService } from '../../bookmarks/bookmark.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-resource-repository',
@@ -15,6 +16,7 @@ export class ResourceRepositoryComponent implements OnInit {
   resources: ResourceDto[] = [];
   bookmarkedMap: { [id: number]: boolean } = {};
   searchQuery: string = '';
+  userRole: string = '';
   
   // Version History Panel state
   selectedResource: ResourceDto | null = null;
@@ -26,11 +28,25 @@ export class ResourceRepositoryComponent implements OnInit {
 
   constructor(
     private resourceService: ResourceService,
-    private bookmarkService: BookmarkService
+    private bookmarkService: BookmarkService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole() || '';
     this.loadResources();
+  }
+
+  deleteResource(r: ResourceDto) {
+    if (!confirm(`Are you sure you want to permanently delete "${r.title}"?`)) {
+      return;
+    }
+    this.resourceService.deleteResource(r.id).subscribe({
+      next: () => {
+        this.loadResources();
+      },
+      error: (err) => alert(err.error?.message || 'Failed to delete resource.')
+    });
   }
 
   loadResources() {

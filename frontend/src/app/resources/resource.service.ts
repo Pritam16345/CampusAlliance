@@ -79,4 +79,8 @@ export class ResourceService {
   rateResource(id: number, rating: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}/rate?rating=${rating}`, {});
   }
+
+  deleteResource(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

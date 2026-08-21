@@ -137,6 +137,18 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteNotice(id: number) {
+    if (!confirm('Are you sure you want to delete this notice?')) {
+      return;
+    }
+    this.noticeService.deleteNotice(id).subscribe({
+      next: () => {
+        this.notices = this.notices.filter(n => n.id !== id);
+      },
+      error: (err) => alert(err.error?.message || 'Failed to delete notice.')
+    });
+  }
+
   markAsSeen(id: number) {
     this.noticeService.markAsSeen(id).subscribe();
   }

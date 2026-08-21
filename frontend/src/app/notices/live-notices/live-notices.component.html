@@ -62,8 +62,11 @@
              Comments ({{ commentsMap[notice.id]?.length || 0 }})
            </button>
            <span *ngIf="notice.version > 1" class="version-badge">Editing (v{{notice.version}})</span>
-           <button *ngIf="userRole === 'ADMIN' || userRole === 'FACULTY'" class="icon-btn edit-btn" (click)="goToAnalytics(notice.id)">
+           <button *ngIf="userRole === 'ADMIN' || userRole === 'FACULTY'" class="icon-btn edit-btn" (click)="goToAnalytics(notice.id)" title="View Analytics">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+           </button>
+           <button *ngIf="userRole === 'ADMIN'" class="icon-btn" (click)="deleteNotice(notice.id)" title="Delete Notice" style="color:#ef4444;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
            </button>
         </div>
 
