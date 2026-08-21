@@ -1,25 +1,79 @@
-<div class="page-container">
-  <div class="page-header">
-    <h1>Audit Logs</h1>
-    <p>Timeline of recent system actions</p>
+<div class="page-container" style="max-width: 1300px; padding: 32px 40px;">
+  
+  <div class="page-header flex justify-between items-center" style="margin-bottom: 24px;">
+    <div>
+      <h1 style="font-size: 26px; font-weight: 700; margin: 0 0 6px 0; color: var(--text-primary);">Audit Trail & System Logs</h1>
+      <p style="color: var(--text-secondary); margin: 0; font-size: 14px;">Immutable timeline of all user registrations, logins, uploads, deletions, and security events</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span style="font-size: 12px; color: var(--text-muted);">
+        Auto-refreshed: {{ lastUpdated | date:'mediumTime' }}
+      </span>
+      <button class="btn btn-outline" style="font-size: 12px; padding: 6px 12px; border-radius: 6px; cursor: pointer;" (click)="refreshNow()" [disabled]="isLoading">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;" [style.animation]="isLoading ? 'spin 1s linear infinite' : 'none'"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        Refresh
+      </button>
+    </div>
   </div>
 
+  <!-- Search & Filter Toolbar -->
+  <div class="card" style="padding: 16px 20px; margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+    
+    <!-- Search Bar -->
+    <div style="position: relative; width: 340px; max-width: 100%;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Search by user, action, or details..." class="form-control" style="padding-left: 36px; border-radius: 8px; font-size: 13px;">
+    </div>
+
+    <!-- Category Filter Pills -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+      <span style="font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-right: 4px;">Filter:</span>
+      <button class="filter-pill" [class.active]="selectedActionFilter === 'ALL'" (click)="setActionFilter('ALL')">All Logs ({{logs.length}})</button>
+      <button class="filter-pill" [class.active]="selectedActionFilter === 'AUTH'" (click)="setActionFilter('AUTH')">Auth & Logins</button>
+      <button class="filter-pill" [class.active]="selectedActionFilter === 'NOTICES'" (click)="setActionFilter('NOTICES')">Notices</button>
+      <button class="filter-pill" [class.active]="selectedActionFilter === 'RESOURCES'" (click)="setActionFilter('RESOURCES')">Resources</button>
+      <button class="filter-pill" [class.active]="selectedActionFilter === 'SECURITY'" (click)="setActionFilter('SECURITY')">Security & Deletions</button>
+    </div>
+  </div>
+
+  <!-- Logs Table -->
   <div class="card p-0" style="padding:0; overflow:hidden">
     <table class="user-table">
       <thead>
         <tr>
-          <th>TIME</th>
-          <th>USER</th>
-          <th>ACTION TYPE</th>
-          <th>DESCRIPTION</th>
+          <th style="width: 200px;">TIMESTAMP</th>
+          <th style="width: 240px;">USER</th>
+          <th style="width: 180px;">ACTION TYPE</th>
+          <th>DESCRIPTION & DETAILS</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let log of logs">
-          <td style="white-space: nowrap;">{{log.timestamp | date:'medium'}}</td>
-          <td>{{log.userEmail}}</td>
-          <td><span class="badge" [ngClass]="getBadgeClass(log.actionType)">{{log.actionType}}</span></td>
-          <td>{{log.details}}</td>
+        <tr *ngFor="let log of filteredLogs">
+          <td style="white-space: nowrap; font-size: 13px; color: var(--text-secondary);">
+            {{ log.performedAt | date:'medium' }}
+          </td>
+          <td>
+            <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">
+              {{ log.performedBy }}
+            </div>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="getBadgeClass(log.action)" style="font-size: 11px; padding: 4px 8px; letter-spacing: 0.03em;">
+              {{ getActionLabel(log.action) }}
+            </span>
+          </td>
+          <td style="font-size: 13px; color: var(--text-secondary);">
+            {{ log.details }}
+          </td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="filteredLogs.length === 0">
+          <td colspan="4" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 8px; opacity: 0.5;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <p style="margin: 0; font-size: 14px;">No audit events found matching your query.</p>
+          </td>
         </tr>
       </tbody>
     </table>

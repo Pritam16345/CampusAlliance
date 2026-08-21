@@ -63,6 +63,7 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        auditLogService.log("USER_LOGIN", user.getEmail(), "Role: " + user.getRole().name());
         String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
         return new AuthResponse(token, user.getEmail(), user.getFullName(), user.getRole().name());
     }

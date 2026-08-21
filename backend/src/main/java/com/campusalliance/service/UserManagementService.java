@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class UserManagementService {
 
     private final UserRepository userRepository;
+    private final AuditLogService auditLogService;
 
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream().map(this::toDto).toList();
@@ -32,6 +33,10 @@ public class UserManagementService {
 
         user.setActive(!Boolean.TRUE.equals(user.getActive()));
         userRepository.save(user);
+
+        String action = Boolean.TRUE.equals(user.getActive()) ? "USER_ACTIVATED" : "USER_SUSPENDED";
+        auditLogService.log(action, currentAdminEmail, "Target User: " + user.getEmail() + " (" + user.getRole().name() + ")");
+
         return toDto(user);
     }
 
