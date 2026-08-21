@@ -106,4 +106,10 @@ export class AuditLogsComponent implements OnInit, OnDestroy {
     if (a.includes('LOGIN') || a.includes('AUTH')) return 'badge-info';
     return 'badge-gray';
   }
+
+  parseDate(dateStr: string): Date {
+    if (!dateStr) return new Date();
+    const normalized = dateStr.endsWith('Z') || dateStr.includes('+') ? dateStr : dateStr + 'Z';
+    return new Date(normalized);
+  }
 }

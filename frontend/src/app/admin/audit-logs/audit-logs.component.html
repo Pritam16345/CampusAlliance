@@ -51,7 +51,7 @@
       <tbody>
         <tr *ngFor="let log of filteredLogs">
           <td style="white-space: nowrap; font-size: 13px; color: var(--text-secondary);">
-            {{ log.performedAt | date:'medium' }}
+            {{ parseDate(log.performedAt) | date:'medium' }}
           </td>
           <td>
             <div style="font-weight: 600; color: var(--text-primary); font-size: 13px;">

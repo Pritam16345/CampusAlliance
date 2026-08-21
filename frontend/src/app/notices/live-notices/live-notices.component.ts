@@ -178,9 +178,11 @@ export class LiveNoticesComponent implements OnInit, OnDestroy {
 
 
   getTimeAgo(dateString: string): string {
-    const date = new Date(dateString);
+    if (!dateString) return 'Just now';
+    const normalized = dateString.endsWith('Z') || dateString.includes('+') ? dateString : dateString + 'Z';
+    const date = new Date(normalized);
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const diffMs = Math.max(0, now.getTime() - date.getTime());
     
     if (diffMs < 60000) return 'Just now';
     
