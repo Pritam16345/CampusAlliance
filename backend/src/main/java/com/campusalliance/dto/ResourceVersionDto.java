@@ -4,8 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-// Version metadata — again no file bytes, just info the UI needs
-// to show a version list with download links.
+/** DTO representing a specific version of an academic resource */
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ResourceVersionDto {

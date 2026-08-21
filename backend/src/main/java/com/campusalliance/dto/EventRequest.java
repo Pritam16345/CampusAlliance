@@ -21,5 +21,5 @@ public class EventRequest {
     @NotNull(message = "Event date is required")
     private LocalDateTime eventDate;
 
-    private Integer version; // for optimistic locking on updates
+    private Integer version; 
 }

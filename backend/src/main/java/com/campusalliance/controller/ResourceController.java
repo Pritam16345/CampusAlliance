@@ -25,7 +25,7 @@ public class ResourceController {
 
     private final ResourceService resourceService;
 
-    // only faculty and admins can upload
+    
     @PostMapping
     @PreAuthorize("hasAnyRole('FACULTY', 'ADMIN')")
     public ResponseEntity<ResourceDto> createResource(
@@ -40,7 +40,7 @@ public class ResourceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    // upload a new version of an existing resource
+    
     @PostMapping("/{id}/versions")
     @PreAuthorize("hasAnyRole('FACULTY', 'ADMIN')")
     public ResponseEntity<ResourceVersionDto> uploadVersion(
@@ -52,7 +52,7 @@ public class ResourceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 
-    // list or search — any authenticated user
+    
     @GetMapping
     public ResponseEntity<List<ResourceDto>> getResources(
             @RequestParam(required = false) String keyword) {
@@ -73,7 +73,7 @@ public class ResourceController {
         return ResponseEntity.ok(resourceService.getVersions(id));
     }
 
-    // download latest version, or a specific version
+    
     @GetMapping("/{id}/download")
     public ResponseEntity<byte[]> download(
             @PathVariable Long id,
@@ -88,7 +88,7 @@ public class ResourceController {
                 .body(version.getFileData());
     }
 
-    // soft delete — only admins
+    
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteResource(@PathVariable Long id) {

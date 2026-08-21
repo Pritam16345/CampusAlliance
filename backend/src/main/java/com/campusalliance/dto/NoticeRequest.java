@@ -14,7 +14,6 @@ public class NoticeRequest {
 
     private String targetAudience;
 
-    // client sends this back on updates so JPA can detect conflicts
-    // null on create (new notice has no version yet)
+    
     private Integer version;
 }

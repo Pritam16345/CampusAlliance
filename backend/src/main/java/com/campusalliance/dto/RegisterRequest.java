@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-// Why a DTO instead of using User entity? We don't want the client
-// setting id, createdAt etc. Plus validation annotations belong here,
-// not on the JPA entity.
+/** Request payload for user registration */
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class RegisterRequest {
@@ -24,5 +22,5 @@ public class RegisterRequest {
     private String password;
 
     @NotBlank(message = "Role is required")
-    private String role; // "STUDENT", "FACULTY", or "ADMIN"
+    private String role; 
 }

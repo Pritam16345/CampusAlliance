@@ -10,7 +10,7 @@ public class NoticeDto {
     private String title;
     private String content;
     private String postedByName;
-    private Integer version; // sent back to client for optimistic locking
+    private Integer version; 
     private long seenCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

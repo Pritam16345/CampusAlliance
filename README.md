@@ -6,8 +6,8 @@
 
 Built with **Spring Boot 3** · **Angular 18** · **PostgreSQL** · **JWT Authentication**
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-campus--alliance-blue?style=for-the-badge)](https://campus-alliance-sooty.vercel.app)
-[![Backend API](https://img.shields.io/badge/🔗_API-Render-green?style=for-the-badge)](https://campus-alliance-api.onrender.com/actuator/health)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-campus--alliance-blue?style=for-the-badge)](https://campus-alliance-nu.vercel.app)
+[![Backend API](https://img.shields.io/badge/🔗_API-Render-green?style=for-the-badge)](https://campusalliance.onrender.com/actuator/health)
 
 </div>
 
@@ -22,28 +22,29 @@ Built with **Spring Boot 3** · **Angular 18** · **PostgreSQL** · **JWT Authen
 | Bookmark & Rate Resources | ✅ | ✅ | ✅ |
 | Comment on Notices (Q&A) | ✅ | ✅ | ✅ |
 | Create Notices (with Target Audience) | ❌ | ✅ | ✅ |
-| Upload Resources | ❌ | ✅ | ✅ |
+| Upload Resources (PDF, DOCX, PPTX up to 50MB) | ❌ | ✅ | ✅ |
 | View Notice Analytics (Seen %) | ❌ | ✅ | ✅ |
-| User Management Dashboard | ❌ | ❌ | ✅ |
-| System Audit Logs | ❌ | ❌ | ✅ |
-| System Health Monitoring | ❌ | ❌ | ✅ |
+| Delete Any Notice or Resource | ❌ | ❌ | ✅ |
+| User Management & Account Suspension | ❌ | ❌ | ✅ |
+| System Audit Trail & Logs | ❌ | ❌ | ✅ |
+| Real-Time Live Infrastructure Health Probes | ❌ | ❌ | ✅ |
 
 ### 📢 Live Notice Board (Real-Time)
-- **Server-Sent Events (SSE)** for instant, push-based notice delivery — no page refresh needed
-- **Targeted Notices** — Faculty can tag notices for specific audiences (e.g., "3rd Year CSE")
-- **Seen Tracking** — Faculty and Admins see what percentage of students have viewed each notice
-- **Comments / Q&A** — Students can ask clarifying questions directly under any notice
+- **Server-Sent Events (SSE)** for instant, push-based notice delivery — zero page refreshes needed
+- **Targeted Notices** — Faculty can tag notices for specific audiences (e.g., "All Students", "3rd Year CSE")
+- **Seen Tracking** — Faculty and Admins see live view counts and read percentages
+- **Comments / Q&A** — Students and faculty can ask questions directly under any notice
 
 ### 📁 Resource Repository
-- Centralized hub for uploading and downloading academic materials (notes, PYQs, assignments)
-- **Version Control** — Re-uploading creates a new version, preserving full revision history
-- **⭐ Star Ratings** — Any user can rate a resource (1-5 stars), with average displayed
-- **🔖 Bookmarks** — Save frequently accessed resources for quick retrieval
+- Centralized hub for uploading and downloading academic materials (PDFs, Word docs, Slides)
+- **Version Control** — Re-uploading creates a new version, preserving complete revision history
+- **Star Ratings** — Interactive 5-star rating system with real-time average aggregation
+- **Bookmarks** — Save frequently accessed resources for instant access
 
 ### 👥 Admin Dashboard
-- **User Management** — View all registered users, see role distribution stats, and suspend/reactivate accounts
-- **Audit Logs** — Chronological timeline of all critical actions (user registrations, notice creation, resource uploads)
-- **System Health** — Live monitoring of database connectivity, disk storage, and server status via Spring Boot Actuator
+- **User Management** — Search users by name/email, filter by role (Students, Faculty, Admins) or status (Active, Suspended), and toggle account suspensions with built-in self-protection.
+- **Audit Logs** — Immutable chronological timeline recording logins, registrations, uploads, deletions, and security events with auto-refresh and category filters.
+- **Live System Health** — Background 5-second heartbeat probes monitoring PostgreSQL database connectivity, connection pooling, and disk space.
 
 ---
 
@@ -51,12 +52,27 @@ Built with **Spring Boot 3** · **Angular 18** · **PostgreSQL** · **JWT Authen
 
 | Layer | Technology |
 |---|---|
-| **Backend** | Java 17, Spring Boot 3.3, Spring Security, Spring Data JPA, Hibernate |
-| **Frontend** | Angular 18, RxJS, TypeScript, Vanilla CSS (Custom Design System) |
+| **Backend** | Java 17, Spring Boot 3.3, Spring Security, Spring Data JPA, Hibernate, Actuator |
+| **Frontend** | Angular 18, RxJS, TypeScript, Bespoke Responsive CSS Design System |
 | **Database** | PostgreSQL 15 (Neon Cloud) |
-| **Auth** | JWT (JSON Web Tokens) with BCrypt password hashing |
-| **Real-Time** | Server-Sent Events (SSE) |
-| **Deployment** | Render (Backend), Vercel (Frontend), Docker & Docker Compose |
+| **Auth** | Stateless JWT (JSON Web Tokens) with BCrypt password hashing |
+| **Real-Time** | Server-Sent Events (SSE) & Reactive RxJS Timers |
+| **Deployment** | Render (Backend API), Vercel (Frontend SPA), Docker |
+
+---
+
+## 🚀 Demo Accounts
+
+| Role | Email / Roll | Password | Full Name |
+|---|---|---|---|
+| **Master Admin** | `admin@university.edu` | `admin123` | Master Admin |
+| **Faculty** | `dr.sharma@kiit.ac.in` | `faculty1` | Dr. Rajesh Sharma |
+| **Faculty** | `prof.das@kiit.ac.in` | `faculty2` | Prof. Subhash Das |
+| **Faculty** | `dr.mukherjee@kiit.ac.in` | `faculty3` | Dr. Swati Mukherjee |
+| **Student** | `23051800@kiit.ac.in` | `student1800` | Aarav Patel |
+| **Student** | `23051801@kiit.ac.in` | `student1801` | Ananya Roy |
+| **Student** | `23051802@kiit.ac.in` | `student1802` | Rohan Sharma |
+| **Student** | `23051806@kiit.ac.in` | `student1806` | Devendra Mehta |
 
 ---
 
@@ -101,114 +117,37 @@ Built with **Spring Boot 3** · **Angular 18** · **PostgreSQL** · **JWT Authen
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Java 17+ (JDK)
-- Node.js 18+ and npm
-- PostgreSQL 15+ (or Docker)
-
-### Option 1: Docker Compose (Recommended)
-```bash
-git clone https://github.com/Pritam16345/CampusAlliance.git
-cd CampusAlliance
-docker-compose up --build -d
-```
-- **Frontend:** http://localhost
-- **Backend API:** http://localhost:8080/api
-- **Health Check:** http://localhost:8080/actuator/health
-
-### Option 2: Manual Setup
-
-#### Database
-```bash
-# Using Docker for just the database:
-docker-compose up db -d
-
-# Or create manually in PostgreSQL:
-# Database: campus_connect | User: postgres | Password: password
-```
-
-#### Backend
-```bash
-cd backend
-./mvnw spring-boot:run
-# API available at http://localhost:8080
-```
-
-#### Frontend
-```bash
-cd frontend
-npm install
-ng serve
-# UI available at http://localhost:4200
-```
-
-### Default Admin Credentials
-The system auto-provisions a master admin on first startup:
-| Email | Password |
-|---|---|
-| `admin@university.edu` | `admin123` |
-
----
-
-## 🧪 Testing
-
-```bash
-cd backend
-./mvnw test
-```
-- Unit tests use **Mockito** to isolate the service layer from the database
-- Tests cover authentication, registration, and duplicate email validation
-
----
-
-## 📐 Architecture Decisions
-
-| Decision | Rationale |
-|---|---|
-| **Vanilla CSS** over Tailwind/Bootstrap | Full control over the premium, bespoke UI design. Demonstrates fundamental CSS mastery. |
-| **SSE** over WebSockets | Notice delivery is unidirectional (server → client), making SSE significantly lighter and simpler over standard HTTP. |
-| **JWT** over Sessions | Stateless authentication scales horizontally without shared session stores. |
-| **Admin Auto-Seeding** | Master admin created on startup (like WordPress/Jira), preventing public admin registration vulnerabilities. |
-| **@Version Optimistic Locking** | Prevents silent data overwrites when multiple users edit the same notice simultaneously. |
-
----
-
-## 🔒 Security
-
-- **JWT Authentication** — Cryptographically signed tokens prevent tampering
-- **BCrypt** — Passwords are never stored in plain text
-- **@PreAuthorize** — Backend endpoints enforce role-based access at the API level
-- **Route Guards** — Frontend prevents unauthorized URL navigation
-- **Admin Lockdown** — No public registration for admin accounts; auto-seeded on server startup
-- **CORS** — Configured to accept only trusted frontend origins
-
----
-
 ## 📁 Project Structure
 
 ```
 CampusAlliance/
 ├── backend/                          # Spring Boot API
-│   └── src/main/java/com/campusalliance/
-│       ├── controller/               # REST endpoints
-│       ├── service/                   # Business logic
-│       ├── repository/               # Data access (JPA)
-│       ├── entity/                    # Database models
-│       ├── dto/                       # Data Transfer Objects
-│       ├── security/                  # JWT, filters, config
-│       ├── exception/                 # Global error handling
-│       └── seeder/                    # Auto-provisioning
-├── frontend/                         # Angular 18 SPA
-│   └── src/app/
-│       ├── auth/                     # Login, guards, interceptor
-│       ├── layout/                   # Sidebar navigation
-│       ├── notices/                  # Notice board + analytics
-│       ├── resources/                # Resource repository
-│       ├── bookmarks/                # Saved items
-│       ├── admin/                    # User management + audit logs
-│       └── health/                   # System monitoring
+│   ├── src/main/java/com/campusalliance/
+│   │   ├── controller/               # REST Endpoints
+│   │   ├── service/                  # Business Logic Layer
+│   │   ├── repository/               # Spring Data JPA Repositories
+│   │   ├── entity/                   # JPA Entity Models
+│   │   ├── dto/                      # Data Transfer Objects
+│   │   ├── security/                 # JWT Authentication & RBAC Filters
+│   │   ├── exception/                # Centralized Global Error Handler
+│   │   └── seeder/                   # Database Auto-Provisioning
+│   ├── src/main/resources/           # Configuration (application.yml)
+│   ├── Dockerfile
+│   └── pom.xml
+├── frontend/                         # Angular 18 Single Page Application
+│   ├── src/app/
+│   │   ├── auth/                     # Authentication & Route Guards
+│   │   ├── layout/                   # Sidebar Navigation Layout
+│   │   ├── notices/                  # Real-Time Notice Board & Analytics
+│   │   ├── resources/                # Resource Repository & Version History
+│   │   ├── bookmarks/                # User Saved Bookmarks
+│   │   ├── admin/                    # User Management & System Audit Logs
+│   │   └── health/                   # Live System Health Monitor
+│   ├── src/environments/             # Environment Configurations
+│   ├── public/                       # Favicon & Static Assets
+│   ├── Dockerfile
+│   ├── angular.json
+│   └── package.json
 ├── docker-compose.yml
 └── README.md
 ```
@@ -218,9 +157,3 @@ CampusAlliance/
 ## 👨‍💻 Author
 
 **Pritam Kundu** — KIIT University
-
----
-
-<div align="center">
-  <sub>Built with ☕ Java, 🅰️ Angular, and 🐘 PostgreSQL</sub>
-</div>

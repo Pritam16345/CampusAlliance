@@ -16,7 +16,7 @@ public class Bookmark extends Auditable {
     private User user;
 
     @Column(nullable = false)
-    private String targetType; // "NOTICE" or "RESOURCE"
+    private String targetType; 
 
     @Column(nullable = false)
     private Long targetId;

@@ -14,10 +14,10 @@ public class AuditLog {
     private Long id;
 
     @Column(nullable = false)
-    private String action; // "NOTICE_CREATED", "USER_REGISTERED", etc.
+    private String action; 
 
     @Column(nullable = false)
-    private String performedBy; // email
+    private String performedBy; 
 
     @Column(length = 500)
     private String details;

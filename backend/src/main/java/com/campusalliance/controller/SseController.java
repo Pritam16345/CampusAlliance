@@ -15,8 +15,7 @@ public class SseController {
 
     private final SseService sseService;
 
-    // client connects here with EventSource — this endpoint is public
-    // (configured in SecurityConfig) because EventSource can't send headers
+    
     @GetMapping(value = "/notices", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter subscribeToNotices() {
         return sseService.subscribe();

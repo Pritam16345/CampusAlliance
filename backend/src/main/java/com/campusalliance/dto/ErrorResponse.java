@@ -4,8 +4,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-// Standard error shape so the frontend always knows what to expect.
-// Every error response from the API looks like this.
+/** Standard API error response */
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class ErrorResponse {

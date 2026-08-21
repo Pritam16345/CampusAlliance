@@ -22,7 +22,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // so @PreAuthorize works on controllers
+@EnableMethodSecurity 
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -32,11 +32,11 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable()) // not needed with JWT (no cookies)
+            .csrf(csrf -> csrf.disable()) 
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/sse/**").permitAll() // SSE can't send auth headers
+                .requestMatchers("/api/sse/**").permitAll() 
                 .requestMatchers("/actuator/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

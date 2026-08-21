@@ -8,8 +8,6 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
 
   jpa:
-    # "update" auto-applies schema changes — fine for dev.
-    # Production would use Flyway or Liquibase migrations.
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -23,13 +21,11 @@ spring:
       max-file-size: 50MB
       max-request-size: 55MB
 
-# JWT config — wired up in the auth step
 app:
   jwt:
     secret: Y2FtcHVzLWFsbGlhbmNlLWp3dC1zZWNyZXQta2V5LXRoYXQtaXMtbG9uZy1lbm91Z2gtZm9yLWhtYWMtc2hhMjU2
-    expiration-ms: 86400000 # 24 hours
+    expiration-ms: 86400000
 
-# Actuator — expose health endpoint (Step 8 will configure further)
 management:
   endpoints:
     web:
@@ -37,7 +33,7 @@ management:
         include: health,info,metrics
   endpoint:
     health:
-      show-details: always # Shows DB status, disk space, etc.
+      show-details: always
   info:
     env:
       enabled: true
