@@ -59,6 +59,11 @@ export class AuthService {
     return user ? user.fullName : null;
   }
 
+  getUserEmail(): string | null {
+    const user = this.getStoredUser();
+    return user ? user.email : null;
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }

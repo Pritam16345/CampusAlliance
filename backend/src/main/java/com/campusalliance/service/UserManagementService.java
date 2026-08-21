@@ -22,10 +22,15 @@ public class UserManagementService {
     }
 
     @Transactional
-    public UserDto toggleUserStatus(Long userId) {
+    public UserDto toggleUserStatus(Long userId, String currentAdminEmail) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        user.setActive(!user.getActive());
+        
+        if (user.getEmail().equalsIgnoreCase(currentAdminEmail) && Boolean.TRUE.equals(user.getActive())) {
+            throw new IllegalArgumentException("You cannot suspend your own active administrator account.");
+        }
+
+        user.setActive(!Boolean.TRUE.equals(user.getActive()));
         userRepository.save(user);
         return toDto(user);
     }

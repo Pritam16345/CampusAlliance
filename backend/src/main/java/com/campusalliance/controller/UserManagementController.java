@@ -24,8 +24,8 @@ public class UserManagementController {
     }
 
     @PutMapping("/{id}/toggle-status")
-    public ResponseEntity<UserDto> toggleUserStatus(@PathVariable Long id) {
-        return ResponseEntity.ok(userManagementService.toggleUserStatus(id));
+    public ResponseEntity<UserDto> toggleUserStatus(@PathVariable Long id, org.springframework.security.core.Authentication auth) {
+        return ResponseEntity.ok(userManagementService.toggleUserStatus(id, auth.getName()));
     }
 
     @GetMapping("/stats")

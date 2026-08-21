@@ -37,6 +37,12 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid email or password");
     }
 
+    // user account suspended
+    @ExceptionHandler({org.springframework.security.authentication.DisabledException.class, org.springframework.security.authentication.LockedException.class})
+    public ResponseEntity<ErrorResponse> handleAccountSuspended(Exception ex) {
+        return buildResponse(HttpStatus.FORBIDDEN, "Your account has been suspended. Please contact an administrator.");
+    }
+
     // duplicate email, invalid role, etc.
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
